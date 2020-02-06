@@ -26,6 +26,10 @@ public class ShootSubsystem{
     private static Boolean lastShootbutton = false;
     private static double lastPressTime = 0;
 
+
+    static {
+        timer.start();
+    }
     public static void update(){
         if(lastShootbutton == false && Controller.shootButton.get() == true){
             lastPressTime = timer.get();
@@ -56,7 +60,7 @@ public class ShootSubsystem{
             beltMotor2.setSpeed(0);
             SmartDashboard.putBoolean("Spinning Up", false);
         }
-        
+
         lastShootbutton = Controller.shootButton.get();
     } 
 
