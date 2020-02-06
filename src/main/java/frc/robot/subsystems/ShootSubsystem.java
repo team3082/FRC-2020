@@ -37,14 +37,14 @@ public class ShootSubsystem{
 
         lastShootbutton = Controller.shootButton.get();
 
-        if(timer.get() != 0 && timer.get() - lastPressTime < 1){
+        if(Controller.shootButton.get() && timer.get() != 0 && timer.get() - lastPressTime < 1){
             flyWheel1.setSpeed(1);
             flyWheel2.setSpeed(-1);
             beltMotor1.setSpeed(0);
             beltMotor2.setSpeed(0);
             SmartDashboard.putBoolean("Spinning Up", true);
         }
-        else if(lastPressTime != 0 && timer.get() - lastPressTime > 1){
+        else if(Controller.shootButton.get() && lastPressTime != 0 && timer.get() - lastPressTime > 1){
             flyWheel1.setSpeed(1);
             flyWheel2.setSpeed(-1);
 
