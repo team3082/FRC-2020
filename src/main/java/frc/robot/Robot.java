@@ -7,9 +7,10 @@
 
 package frc.robot;
 
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import frc.robot.Controller;
+import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -35,7 +36,6 @@ public class Robot extends TimedRobot {
 
     boolean buttonToggle = false;
     boolean driveButtonLast = false;
-    boolean testButtonToggleFun = false;
     
     int s = 0;
 
@@ -44,8 +44,8 @@ public class Robot extends TimedRobot {
     private WPI_TalonSRX motorLeft1 = new WPI_TalonSRX(Constants.MOTOR_LEFTBACK);
     private WPI_TalonSRX motorRight2 = new WPI_TalonSRX(Constants.MOTOR_RIGHTFRONT);
     private WPI_TalonSRX motorRight3 = new WPI_TalonSRX(Constants.MOTOR_RIGHTBACK);
-    private Talon flyWheel1 = new Talon(Constants.FLYWHEEL_MOTOR1);
-    private Talon flyWheel2 = new Talon(Constants.FLYWHEEL_MOTOR2);
+
+    private Talon intakeMotor = new Talon(Constants.INTAKE_MOTOR);
 
     //Motor Control Groups
     private SpeedControllerGroup motorsLeft = new SpeedControllerGroup(motorLeft0, motorLeft1);
@@ -53,12 +53,6 @@ public class Robot extends TimedRobot {
 
     //Drivetrain object
     private final DifferentialDrive drive = new DifferentialDrive(motorsLeft, motorsRight);
-
-    //Controller object
-    private final Joystick driveCntrl = new Joystick(0);
-
-    private final JoystickButton shootButton = new JoystickButton(driveCntrl, 1);
-    private final JoystickButton slowButton = new JoystickButton(driveCntrl, 2);
 
     /**
      * This method is run when the robot is first started up and should be
@@ -131,66 +125,49 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        // double speedmod; 
-        // if(slowButton.get()){
-        //     speedmod = 0.4;
-        // }
-        // else {
-        //     speedmod = 0.8;
-        // }
-        
-        double x = driveToggle(slowButton.get());
-        
 
-        // drive.arcadeDrive(-driveCntrl.getY() * x, driveCntrl.getX() * x);
-
-        flyWheel1.setSpeed(driveCntrl.getRawAxis(3));
-        flyWheel2.setSpeed(-driveCntrl.getRawAxis(3));
-
-        
-        
-        
+        ShootSubsystem.update();
+        IntakeSubsystem.update();
 
 
-        
-        if(shootButton.get() && testButtonToggleFun == false) {
-            s = (s + 1) % 4; 
+
+        double speedmod; 
+        if(Controller.slowButton.get()){
+            speedmod = 0.4;
         }
-
-        testButtonToggleFun = shootButton.get();
-
-        switch(s){
-            case 0:
-                drive.arcadeDrive(0, 0);
-                break;
-            case 1:
-                drive.arcadeDrive(0.1, 0);
-                break;
-            case 2:
-                drive.arcadeDrive(0, 0);
-                break;
-            case 3:
-                drive.arcadeDrive(-0.1, 0);
-
-            
+        else {
+            speedmod = 0.8;
         }
         
+        double x = driveToggle(Controller.slowButton.get());
+        
 
-        // if(shootButton.get() == true) {
-        //     // flyWheel.setSpeed(0.6);
-        //     flyWheel1.setSpeed(1);
-        //     flyWheel2.setSpeed(-1);
+        drive.arcadeDrive(-Controller.driveCntrl.getY() * x, Controller.driveCntrl.getX() * x);
 
-        //     SmartDashboard.putBoolean("flyon", true);
+        // switch(s){
+        //     case 0:
+        //         drive.arcadeDrive(0, 0);
+        //         break;
+        //     case 1:
+        //         drive.arcadeDrive(0.1, 0);
+        //         break;
+        //     case 2:
+        //         drive.arcadeDrive(0, 0);
+        //         break;
+        //     case 3:
+        //         drive.arcadeDrive(-0.1, 0);
+
             
         // }
-        // else{
-        //     flyWheel1.setSpeed(0);
-        //     flyWheel2.setSpeed(0);
-        //     SmartDashboard.putBoolean("flyon", false);
-        // }
-    } 
+        
 
+
+        //Intake Mechanism
+
+
+        //Shooting Mechanism
+
+    }
     public double driveToggle(boolean buttonValue) {
         double speedmod;   
 
@@ -207,8 +184,6 @@ public class Robot extends TimedRobot {
 
         return speedmod;
     }
-
-
 
     /**
      * This method is called periodically during test mode.
