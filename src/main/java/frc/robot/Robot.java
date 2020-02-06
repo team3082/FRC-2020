@@ -1,23 +1,8 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
-import frc.robot.Controller;
 import frc.robot.subsystems.*;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,25 +19,7 @@ public class Robot extends TimedRobot {
     private String autoSelected;
     private final SendableChooser<String> chooser = new SendableChooser<>();
 
-    boolean buttonToggle = false;
-    boolean driveButtonLast = false;
-    
-    int s = 0;
 
-    // Motors
-    private WPI_TalonSRX motorLeft0 = new WPI_TalonSRX(Constants.MOTOR_LEFTFRONT);
-    private WPI_TalonSRX motorLeft1 = new WPI_TalonSRX(Constants.MOTOR_LEFTBACK);
-    private WPI_TalonSRX motorRight2 = new WPI_TalonSRX(Constants.MOTOR_RIGHTFRONT);
-    private WPI_TalonSRX motorRight3 = new WPI_TalonSRX(Constants.MOTOR_RIGHTBACK);
-
-    private Talon intakeMotor = new Talon(Constants.INTAKE_MOTOR);
-
-    //Motor Control Groups
-    private SpeedControllerGroup motorsLeft = new SpeedControllerGroup(motorLeft0, motorLeft1);
-    private SpeedControllerGroup motorsRight = new SpeedControllerGroup(motorRight2, motorRight3);
-
-    //Drivetrain object
-    private final DifferentialDrive drive = new DifferentialDrive(motorsLeft, motorsRight);
 
     /**
      * This method is run when the robot is first started up and should be
@@ -64,12 +31,10 @@ public class Robot extends TimedRobot {
         chooser.addOption("My Auto", CUSTOM_AUTO);
         SmartDashboard.putData("Auto choices", chooser);
         
-        // testMotor.set(ControlMode.PercentOutput, 0);
-        motorLeft0.configFactoryDefault();
-        motorLeft1.configFactoryDefault();
-        motorRight2.configFactoryDefault();
-        motorRight3.configFactoryDefault();
-        // drive.setRightSideInverted(false);
+        DriveSubsystem.motorLeft0.configFactoryDefault();
+        DriveSubsystem.motorLeft1.configFactoryDefault();
+        DriveSubsystem.motorRight2.configFactoryDefault();
+        DriveSubsystem.motorRight3.configFactoryDefault();
     }
     /**
      * This method is called every robot packet, no matter the mode. Use
@@ -80,8 +45,7 @@ public class Robot extends TimedRobot {
      * LiveWindow and SmartDashboard integrated updating.
      */
     @Override
-    public void robotPeriodic()
-    {
+    public void robotPeriodic() {
     }
 
     /**
@@ -128,62 +92,10 @@ public class Robot extends TimedRobot {
 
         ShootSubsystem.update();
         IntakeSubsystem.update();
-
-
-
-        double speedmod; 
-        if(Controller.slowButton.get()){
-            speedmod = 0.4;
-        }
-        else {
-            speedmod = 0.8;
-        }
-        
-        double x = driveToggle(Controller.slowButton.get());
-        
-
-        drive.arcadeDrive(-Controller.driveCntrl.getY() * x, Controller.driveCntrl.getX() * x);
-
-        // switch(s){
-        //     case 0:
-        //         drive.arcadeDrive(0, 0);
-        //         break;
-        //     case 1:
-        //         drive.arcadeDrive(0.1, 0);
-        //         break;
-        //     case 2:
-        //         drive.arcadeDrive(0, 0);
-        //         break;
-        //     case 3:
-        //         drive.arcadeDrive(-0.1, 0);
-
-            
-        // }
-        
-
-
-        //Intake Mechanism
-
-
-        //Shooting Mechanism
+        DriveSubsystem.update();
 
     }
-    public double driveToggle(boolean buttonValue) {
-        double speedmod;   
 
-        if(buttonValue && !driveButtonLast)
-            buttonToggle = !buttonToggle;     
-
-            driveButtonLast = buttonValue;
-
-        if(buttonToggle)
-            speedmod = 0.4;
-
-        else
-            speedmod = 0.8;
-
-        return speedmod;
-    }
 
     /**
      * This method is called periodically during test mode.
