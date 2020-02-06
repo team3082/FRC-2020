@@ -23,22 +23,41 @@ public class ShootSubsystem{
 
     public static Timer timer = new Timer();
 
-    // private static Boolean lastShootbutton = false;
-    // private static double lastPressTime = 0;
+    private static Boolean lastShootbutton = false;
+    private static double lastPressTime = 0;
 
     public static void update(){
-        if(Controller.shootButton.get() == true) {
-            ShootSubsystem.flyWheel1.setSpeed(1);
-            ShootSubsystem.flyWheel2.setSpeed(-1);
+        if(lastShootbutton == false && Controller.shootButton.get() == true){
+            lastPressTime = timer.get();
+        }
 
-            SmartDashboard.putBoolean("flyon", true);
-            
+        lastShootbutton = Controller.shootButton.get();
+
+        if(timer.get() != 0 && timer.get() - lastPressTime < 1){
+            flyWheel1.setSpeed(1);
+            flyWheel2.setSpeed(-1);
+            beltMotor1.setSpeed(0);
+            beltMotor2.setSpeed(0);
+            SmartDashboard.putBoolean("Spinning Up", true);
+        }
+        else if(lastPressTime != 0 && timer.get() - lastPressTime > 1){
+            flyWheel1.setSpeed(1);
+            flyWheel2.setSpeed(-1);
+
+            beltMotor1.setSpeed(0.5);
+            beltMotor2.setSpeed(-0.5);
+            SmartDashboard.putBoolean("Spinning Up", false);
         }
         else{
-            ShootSubsystem.flyWheel1.setSpeed(0);
-            ShootSubsystem.flyWheel2.setSpeed(0);
-            SmartDashboard.putBoolean("flyon", false);
+            flyWheel1.setSpeed(0);
+            flyWheel2.setSpeed(0);
+
+            beltMotor1.setSpeed(0);
+            beltMotor2.setSpeed(0);
+            SmartDashboard.putBoolean("Spinning Up", false);
         }
+        
+        lastShootbutton = Controller.shootButton.get();
     } 
 
 }
