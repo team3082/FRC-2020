@@ -14,5 +14,4 @@ public class Controller {
    
     public static final JoystickButton intakeButton = new JoystickButton(driveCntrl, 3);
 
-
 }

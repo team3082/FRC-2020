@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
@@ -28,13 +29,13 @@ public class DriveSubsystem {
     // Drivetrain object
     private static final DifferentialDrive drive = new DifferentialDrive(motorsLeft, motorsRight);
 
+    //Runs every time robotPeriodic is run
     public static void update() {
         if (Controller.slowButton.get()) {
             speedmod = 0.4;
         } else {
             speedmod = 0.8;
         }
-
         final double x = driveToggle(Controller.slowButton.get());
 
         drive.arcadeDrive(-Controller.driveCntrl.getY() * x, Controller.driveCntrl.getX() * x);

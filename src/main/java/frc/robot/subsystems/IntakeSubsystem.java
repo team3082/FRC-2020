@@ -11,7 +11,7 @@ public class IntakeSubsystem {
     public static Talon intakeMotor = new Talon(Constants.INTAKE_MOTOR);
 
 
-
+    //Runs every time robotPeriodic is run
     public static void update() {
         if(Controller.intakeButton.get()){
             intakeMotor.setSpeed(0.8);

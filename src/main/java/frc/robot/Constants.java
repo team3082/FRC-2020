@@ -17,4 +17,8 @@ public class Constants{
 
     public static final int INTAKE_MOTOR = 2; 
     
+    //PID
+    public static final double TARGET_FLYWHEEL_RPM = 500;
 }
+
+
