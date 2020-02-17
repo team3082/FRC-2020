@@ -35,6 +35,8 @@ public class Robot extends TimedRobot {
         DriveSubsystem.motorLeft1.configFactoryDefault();
         DriveSubsystem.motorRight2.configFactoryDefault();
         DriveSubsystem.motorRight3.configFactoryDefault();
+        
+        ShootSubsystem.init();
     }
     /**
      * This method is called every robot packet, no matter the mode. Use
@@ -65,6 +67,8 @@ public class Robot extends TimedRobot {
         // autoSelected = SmartDashboard.getString("Auto Selector",
         // defaultAuto);
         System.out.println("Auto selected: " + autoSelected);
+
+        IntakeSubsystem.intakeAuto();
     }
 
     /**
@@ -92,7 +96,9 @@ public class Robot extends TimedRobot {
 
         ShootSubsystem.update();
         IntakeSubsystem.update();
+        IntakeSubsystem.intakeInit();
         DriveSubsystem.update();
+        PneumaticsSubsystem.runCompressor();
 
     }
 
@@ -105,3 +111,6 @@ public class Robot extends TimedRobot {
     {
     }
 }
+
+
+//shoutout miloe mn

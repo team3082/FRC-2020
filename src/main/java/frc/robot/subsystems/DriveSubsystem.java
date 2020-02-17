@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
@@ -38,7 +37,7 @@ public class DriveSubsystem {
         }
         final double x = driveToggle(Controller.slowButton.get());
 
-        drive.arcadeDrive(-Controller.driveCntrl.getY() * x, Controller.driveCntrl.getX() * x);
+        drive.arcadeDrive(-Controller.driveControl.getY() * x, Controller.driveControl.getX() * x);
     }
 
     public static double driveToggle(final boolean buttonValue) {
