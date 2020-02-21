@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
 import frc.robot.Controller;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -9,7 +8,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 
 public class ClimbSubsystem {
-    private static Talon winch = new Talon(9);
+    private static Talon winch = new Talon(5);
 
 
     public static void update(){

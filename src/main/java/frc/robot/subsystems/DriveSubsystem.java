@@ -31,13 +31,13 @@ public class DriveSubsystem {
     //Runs every time robotPeriodic is run
     public static void update() {
         if (Controller.slowButton.get()) {
-            speedmod = 0.4;
+            speedmod = 0.6;
         } else {
             speedmod = 0.8;
         }
         final double x = driveToggle(Controller.slowButton.get());
 
-        drive.arcadeDrive(-Controller.driveControl.getY() * x, Controller.driveControl.getX() * x);
+        drive.arcadeDrive(Controller.driveControl.getY() * x, Controller.driveControl.getX() * x);
     }
 
     public static double driveToggle(final boolean buttonValue) {

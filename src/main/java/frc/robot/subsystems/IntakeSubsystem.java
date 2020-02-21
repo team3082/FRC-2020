@@ -21,15 +21,25 @@ public class IntakeSubsystem {
     //Runs every time robotPeriodic is run
     public static void update() {
         if(Controller.intakeButton.get()){
-            intakeMotor.setSpeed(-0.8);
+            intakeMotor.setSpeed(0.6);
             SmartDashboard.putBoolean("Intake On", true);
         }
         else{
             intakeMotor.setSpeed(0);
             SmartDashboard.putBoolean("Intake On", false);
         }
+
+        if(Controller.beltButton.get()) {
+            ShootSubsystem.beltMotor1.setSpeed(-0.5);
+            ShootSubsystem.beltMotor2.setSpeed(0.5);
+        }
+        else{
+            ShootSubsystem.beltMotor1.setSpeed(0);
+            ShootSubsystem.beltMotor2.setSpeed(0);
+        }
         
     }   
+
     public static void intakeAuto(){
         intakeServo.set(1);
     }

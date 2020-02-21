@@ -18,8 +18,8 @@ public class ShootSubsystem{
     public static WPI_TalonSRX flyWheel1 = new WPI_TalonSRX(Constants.SHOOTER_LEFT);
     public static WPI_TalonSRX flyWheel2 = new WPI_TalonSRX(Constants.SHOOTER_RIGHT);
 
-    public static Talon beltMotor1 = new Talon(Constants.BELT_MOTOR1);
-    public static Talon beltMotor2 = new Talon(Constants.BELT_MOTOR2);
+    public static Talon beltMotor1 = new Talon(Constants.BELT_MOTOR_LEFT);
+    public static Talon beltMotor2 = new Talon(Constants.BELT_MOTOR_RIGHT);
 
     public static Timer timer = new Timer();
 
@@ -49,7 +49,7 @@ public class ShootSubsystem{
         if(Controller.shootButton.get() && timer.get() != 0 && timer.get() - lastPressTime < DELAY){
             // flyWheel1.set(ControlMode.Velocity, -TARGET_VELOCITY);
             // flyWheel2.set(ControlMode.Velocity, TARGET_VELOCITY);
-            flyWheel1.set(-0.5);
+            flyWheel1.set(0.8);
             flyWheel2.set(0.5);
 
             beltMotor1.setSpeed(0);
@@ -58,7 +58,6 @@ public class ShootSubsystem{
             PneumaticsSubsystem.beltSolenoid.set(Value.kReverse);
 
             SmartDashboard.putBoolean("Spinning Up", true);
-
 
 
             SmartDashboard.putNumber("Encoder output 1", flyWheel1.getSelectedSensorVelocity());
@@ -70,7 +69,7 @@ public class ShootSubsystem{
             // flyWheel1.set(ControlMode.Velocity, -TARGET_VELOCITY);
             // flyWheel2.set(ControlMode.Velocity, TARGET_VELOCITY);
 
-            flyWheel1.set(-0.5);
+            flyWheel1.set(-0.8);
             flyWheel2.set(0.5);
 
             beltMotor1.setSpeed(-0.3);

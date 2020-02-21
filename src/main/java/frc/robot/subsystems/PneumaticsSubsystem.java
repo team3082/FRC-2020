@@ -18,10 +18,10 @@ public class PneumaticsSubsystem {
     //compressor run and regulate
     public static void runCompressor(){
         if(compressor.getPressureSwitchValue()){
-            compressor.start();
+            compressor.setClosedLoopControl(true);
         }
         else{
-            compressor.stop();
+            compressor.setClosedLoopControl(false);
         }
     }
     
