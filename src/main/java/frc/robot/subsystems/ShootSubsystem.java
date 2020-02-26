@@ -38,22 +38,16 @@ public class ShootSubsystem{
 
     public static void init(){
         flyWheel1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-        flyWheel2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 1, 10);
+        flyWheel2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     }
 
     public static void update(){
-        if(lastShootbutton == false && Controller.shootButton.get() == true){
-            lastPressTime = timer.get();
-        }
 
-        if(Controller.shootButton.get() && timer.get() != 0 && timer.get() - lastPressTime < DELAY){
+        if(Controller.shootButton.get()){
             // flyWheel1.set(ControlMode.Velocity, -TARGET_VELOCITY);
             // flyWheel2.set(ControlMode.Velocity, TARGET_VELOCITY);
-            flyWheel1.set(0.8);
-            flyWheel2.set(0.5);
-
-            beltMotor1.setSpeed(0);
-            beltMotor2.setSpeed(0);
+            flyWheel1.set(0.73);
+            flyWheel2.set(0.73);
 
             PneumaticsSubsystem.beltSolenoid.set(Value.kReverse);
 
@@ -63,33 +57,15 @@ public class ShootSubsystem{
             SmartDashboard.putNumber("Encoder output 1", flyWheel1.getSelectedSensorVelocity());
             SmartDashboard.putNumber("Encoder output 2", flyWheel2.getSelectedSensorVelocity());
         }
-        //walter do not read next line
-        //sex 
-        else if(Controller.shootButton.get() && lastPressTime != 0 && timer.get() - lastPressTime > DELAY){
-            // flyWheel1.set(ControlMode.Velocity, -TARGET_VELOCITY);
-            // flyWheel2.set(ControlMode.Velocity, TARGET_VELOCITY);
 
-            flyWheel1.set(-0.8);
-            flyWheel2.set(0.5);
-
-            beltMotor1.setSpeed(-0.3);
-            beltMotor2.setSpeed(0.3);
-
-            SmartDashboard.putBoolean("Spinning Up", false);
-        }
         else{
             flyWheel1.set(0);
             flyWheel2.set(0);
-
-            beltMotor1.setSpeed(0);
-            beltMotor2.setSpeed(0);
 
             PneumaticsSubsystem.beltSolenoid.set(Value.kForward);
 
             SmartDashboard.putBoolean("Spinning Up", false);
         }
-
-        lastShootbutton = Controller.shootButton.get();
     } 
 
 }

@@ -33,11 +33,13 @@ public class DriveSubsystem {
         if (Controller.slowButton.get()) {
             speedmod = 0.6;
         } else {
-            speedmod = 0.8;
+            speedmod = 1;
         }
-        final double x = driveToggle(Controller.slowButton.get());
+        // final double x = driveToggle(Controller.slowButton.get());
 
-        drive.arcadeDrive(Controller.driveControl.getY() * x, Controller.driveControl.getX() * x);
+        drive.arcadeDrive(Controller.driveControl.getY() * speedmod, Controller.driveControl.getX() * speedmod);
+
+
     }
 
     public static double driveToggle(final boolean buttonValue) {
@@ -55,5 +57,8 @@ public class DriveSubsystem {
             speedmod = 0.8;
 
         return speedmod;
+
+
+        
     }
 }

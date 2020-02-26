@@ -1,7 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.*;
-
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,11 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * methods corresponding to each mode, as described in the TimedRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the build.gradle file in the
- * project.
+ * project.0
  */
 public class Robot extends TimedRobot {
     private static final String DEFAULT_AUTO = "Default";
     private static final String CUSTOM_AUTO = "My Auto";
+    public static final PowerDistributionPanel pdp = new PowerDistributionPanel(0);
     private String autoSelected;
     private final SendableChooser<String> chooser = new SendableChooser<>();
 
@@ -37,6 +39,7 @@ public class Robot extends TimedRobot {
         DriveSubsystem.motorRight3.configFactoryDefault();
         
         ShootSubsystem.init();
+        CameraServer.getInstance().startAutomaticCapture();
     }
     /**
      * This method is called every robot packet, no matter the mode. Use
@@ -68,7 +71,6 @@ public class Robot extends TimedRobot {
         // defaultAuto);
         System.out.println("Auto selected: " + autoSelected);
 
-        IntakeSubsystem.intakeAuto();
     }
 
     /**
@@ -96,7 +98,6 @@ public class Robot extends TimedRobot {
 
         ShootSubsystem.update();
         IntakeSubsystem.update();
-        IntakeSubsystem.intakeInit();
         DriveSubsystem.update();
         PneumaticsSubsystem.runCompressor();
 

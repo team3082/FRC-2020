@@ -4,6 +4,7 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class PneumaticsSubsystem {
@@ -17,11 +18,13 @@ public class PneumaticsSubsystem {
     
     //compressor run and regulate
     public static void runCompressor(){
-        if(compressor.getPressureSwitchValue()){
+        if(!compressor.getPressureSwitchValue()){
             compressor.setClosedLoopControl(true);
+            SmartDashboard.putBoolean("Pressure Switch", compressor.getPressureSwitchValue());
         }
         else{
             compressor.setClosedLoopControl(false);
+            SmartDashboard.putBoolean("Pressure Switch", compressor.getPressureSwitchValue());
         }
     }
     

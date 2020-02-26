@@ -23,19 +23,15 @@ public class Constants{
 
     public static final int CLIMB_SOLENOID_FWD = 1;
     public static final int CLIMB_SOLENOID_BCK = 6;
-
-
-    //PWM
-    public static final int FLYWHEEL_MOTOR_LEFT = 4;
-    public static final int FLYWHEEL_MOTOR_RIGHT = 5;
-
-    public static final int BELT_MOTOR_LEFT = 0;
-    public static final int BELT_MOTOR_RIGHT = 1;
-
-    public static final int INTAKE_MOTOR = 3; 
-
-    public static final int INTAKE_SERVO = 8;
     
+    //PWM
+    public static final int BELT_MOTOR_LEFT = 0;
+    public static final int BELT_MOTOR_RIGHT = 4;
+
+    public static final int WINCH = 6;
+
+    public static final int INTAKE_MOTOR = 8; 
+
     //PID
     public static final double TARGET_FLYWHEEL_RPM = 500;
 }
