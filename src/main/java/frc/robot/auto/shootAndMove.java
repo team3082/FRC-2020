@@ -1,17 +1,12 @@
 package frc.robot.auto;
 
 // subsystem imports
-import frc.robot.subsystems.ShootSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PneumaticsSubsystem;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.subsystems.*;
 
 // utility imports
-import frc.lib.RT;
+import frc.lib.RTime;
 
-public class shootAndMove {
-
-	// global variables
+public class ShootAndMove {
 
 	public static double m_initTime; // Time when auto was called
 
@@ -19,13 +14,11 @@ public class shootAndMove {
 
 	public static boolean hasNotShot;
 
-	public static boolean hasNotReved;
-
 	// methods
 
-	public static void init() {
+	public static void start() {
 
-		m_initTime = RT.m_time;
+		m_initTime = RTime.getTime();
 
 		clear();
 
@@ -34,36 +27,34 @@ public class shootAndMove {
 	public static void clear() {
 
 		hasNotStarted = true;
-
-		hasNotShot    = true;
-
-		hasNotReved   = true;
+		hasNotShot   = true;
 
 	}
 
 	public static void moveOffTheLineAndShoot() {
 
+		//drive backwards for 2 seconds then shoot
 		if (hasNotStarted) {
 
-			DriveSubsystem.move(2); 
+			DriveSubsystem.leftPower = -1;
+			DriveSubsystem.rightPower = -1; 
 
 			hasNotStarted = false;
 
-		} else if (hasNotReved && RT.m_time - 3 >= m_initTime) {
+		} else if (hasNotShot && RTime.getTime() >= m_initTime + 2) {
 
-			ShootSubsystem.setVelocity(15000);
+			DriveSubsystem.leftPower = 0;
+			DriveSubsystem.rightPower = 0; 
 
-			hasNotReved = false;
-
-		} else if (hasNotShot && RT.m_time - 5 >= m_initTime) {
-
-			PneumaticsSubsystem.beltSolenoid.set(Value.kForward);
+			ShootSubsystem.enabled = true;
+			BeltSubsystem.enabled = true;
 
 			hasNotShot = false;
 
-		} else if (RT.m_time - 8 >= m_initTime) {
+		} else if (RTime.getTime() >= m_initTime + 13) {
 
-            ShootSubsystem.setVelocity(0);
+			ShootSubsystem.enabled = false;
+			BeltSubsystem.enabled = false;
 
 	  	}
 

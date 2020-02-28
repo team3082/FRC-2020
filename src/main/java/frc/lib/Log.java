@@ -1,5 +1,6 @@
 package frc.lib;
 
+//generic logging class that allows for enabling and disabling logs to prevent spamming the network during comp
 public class Log {
 
     public static boolean m_enabled = false;

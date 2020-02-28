@@ -1,37 +1,34 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.Controller;
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj.Talon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class IntakeSubsystem {
     
-    public static Talon intakeMotor = new Talon(Constants.INTAKE_MOTOR);
-
-    public static boolean intakeButtonLast = false;
-    public static boolean z = false;
+    private static TalonSRX intakeMotor = new TalonSRX(Constants.INTAKE_MOTOR);
+    public static double intakePower;
     // private static final DoubleSolenoid intakeMove = new DoubleSolenoid(Constants.INTAKE_SOLEDNOID_FWD, Constants.INTAKE_SOLEDNOID_BCK);
+
+    public static void init() {
+        intakeMotor.setInverted(false);
+        
+        clear();
+    }
+
+    public static void clear() {
+        intakePower = 0;
+    }
 
     //Runs every time robotPeriodic is run
     public static void update() {
-        if(Controller.intakeButtonFwd.get())
-            intakeMotor.set(0.7);
-        else if(Controller.intakeButtonBack.get())
-            intakeMotor.set(-0.7);
-        else
-            intakeMotor.set(0);
+        
+        intakeMotor.set(ControlMode.PercentOutput, intakePower * 0.7);
 
-
-        if(Controller.beltButton.get()) {
-            BeltSubsystem.beltOn();
-        } else {
-            BeltSubsystem.beltOff();
-        }
         SmartDashboard.putNumber("Intake Current", Robot.pdp.getCurrent(12));
-
     }
 
 }   

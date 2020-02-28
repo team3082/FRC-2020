@@ -1,77 +1,84 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.lib.RT;
+import frc.lib.RTime;
 import frc.robot.Constants;
-import frc.robot.Controller;
 
 public class DriveSubsystem {
 
-    static boolean buttonToggle = false;
-    static boolean driveButtonLast = false;
-
-    static double speedmod;
-    int s = 0;
 
     // Motors
-    public static final WPI_TalonSRX motorLeft0 = new WPI_TalonSRX(Constants.MOTOR_LEFTFRONT);
-    public static final WPI_TalonSRX motorLeft1 = new WPI_TalonSRX(Constants.MOTOR_LEFTBACK);
-    public static final WPI_TalonSRX motorRight2 = new WPI_TalonSRX(Constants.MOTOR_RIGHTFRONT);
-    public static final WPI_TalonSRX motorRight3 = new WPI_TalonSRX(Constants.MOTOR_RIGHTBACK);
+    private static final TalonSRX motorLeftMain      = new TalonSRX(Constants.MOTOR_LEFTFRONT);
+    private static final TalonSRX motorLeftFollower  = new TalonSRX(Constants.MOTOR_LEFTBACK);
+    private static final TalonSRX motorRightMain     = new TalonSRX(Constants.MOTOR_RIGHTFRONT);
+    private static final TalonSRX motorRightFollower = new TalonSRX(Constants.MOTOR_RIGHTBACK);
+
+    private static final boolean wheelsOnTheInside = true;
 
     //Controls the Power of Motors
     public static double leftPower;
     public static double rightPower;
 
+    private static boolean buttonToggle;
+    private static double speedmod;
+
     public static void init(){
-        motorLeft1.follow(motorLeft0);
-        motorRight3.follow(motorRight2);
+
+        
+        motorLeftMain.configFactoryDefault();
+        motorLeftFollower.configFactoryDefault();
+        motorRightMain.configFactoryDefault();
+        motorRightFollower.configFactoryDefault();
+        
+        motorLeftFollower.follow(motorLeftMain);
+        motorRightFollower.follow(motorRightMain);
+
+        motorLeftMain.setInverted(wheelsOnTheInside);
+        motorLeftFollower.setInverted(wheelsOnTheInside);
+
+        motorRightMain.setInverted(!wheelsOnTheInside);
+        motorRightFollower.setInverted(!wheelsOnTheInside);
+
+        //allows for stronger turns
+        motorLeftMain.setNeutralMode(NeutralMode.Brake);
+        motorRightMain.setNeutralMode(NeutralMode.Brake);
+        
+        //"full output" will now scale to 10 Volts for all control modes when enabled
+        //keeps driving consistent while the battery drains
+        motorLeftMain.configVoltageCompSaturation(10);
+        motorLeftMain.enableVoltageCompensation(true);
+        motorRightMain.configVoltageCompSaturation(10);
+        motorRightMain.enableVoltageCompensation(true);
+
+        clear();
+    }
+
+    public static void clear() {
+        leftPower = 0;
+        rightPower = 0;
+        speedmod = 0.4;
+        buttonToggle = false; 
     }
 
     //Runs every time robotPeriodic is run
     public static void update() {
         
-        motorLeft0.set(ControlMode.PercentOutput, leftPower);
-        motorRight2.set(ControlMode.PercentOutput, rightPower);
+        motorLeftMain.set(ControlMode.PercentOutput, leftPower * speedmod);
+        motorRightMain.set(ControlMode.PercentOutput, rightPower * speedmod);
         
     }
 
-    public static double driveToggle(final boolean buttonValue) {
-        double speedmod;
+    public static void boostToggle() {
 
-        if (buttonValue && !driveButtonLast)
-            buttonToggle = !buttonToggle;
-
-            driveButtonLast = buttonValue;
+        buttonToggle = !buttonToggle;
 
         if(buttonToggle)
             speedmod = 0.4;
-
         else
             speedmod = 0.8;
-
-        return speedmod;
-
-    }
-
-    public static void move (double seconds) {
-        double m_initialTime = RT.m_time; 
-
-        motorLeft0.set(ControlMode.PercentOutput, 1); 
-        motorLeft1.set(ControlMode.PercentOutput, 1); 
-        motorRight2.set(ControlMode.PercentOutput, 1); 
-        motorRight3.set(ControlMode.PercentOutput, 1); 
-
-        if (RT.m_time - seconds >= m_initialTime) {
-            motorLeft0.set(ControlMode.PercentOutput, 0); 
-            motorLeft1.set(ControlMode.PercentOutput, 0); 
-            motorRight2.set(ControlMode.PercentOutput, 0); 
-            motorRight3.set(ControlMode.PercentOutput, 0); 
-        }
 
     }
 

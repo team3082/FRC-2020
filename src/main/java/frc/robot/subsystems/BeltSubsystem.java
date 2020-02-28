@@ -1,24 +1,36 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Talon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import frc.robot.Constants;
 import frc.robot.subsystems.ShootSubsystem;
 
 public class BeltSubsystem{
 
-    public static Talon beltMotor1 = new Talon(Constants.BELT_MOTOR_LEFT);
-    public static Talon beltMotor2 = new Talon(Constants.BELT_MOTOR_RIGHT);
+    private static TalonSRX beltMotorMain = new TalonSRX(Constants.BELT_MOTOR_LEFT);
+    private static TalonSRX beltMotorFollower = new TalonSRX(Constants.BELT_MOTOR_RIGHT);
+    
+    public static boolean enabled;
 
-    public static void beltOn(){
-        if (ShootSubsystem.flyWheel1.getSelectedSensorVelocity() > (ShootSubsystem.TARGET_VELOCITY-100)){
-            beltMotor1.setSpeed(-0.4);
-            beltMotor2.setSpeed(0.4 );
-        }
+    public static void init() {
+        beltMotorMain.setInverted(true);
+        beltMotorFollower.setInverted(false);
+
+        beltMotorFollower.follow(beltMotorMain);
+    }
+    public static void clear() {
+        enabled = false;
     }
 
-    public static void beltOff(){
-        beltMotor1.setSpeed(0);
-        beltMotor2.setSpeed(0);
+    public static void update(){
+        //this prevents the belt from feeding power cells before the shooter is up to speed
+        if (enabled && ShootSubsystem.atSetpoint()){
+            beltMotorMain.set(ControlMode.PercentOutput, 0.4);
+        }
+        else {
+            beltMotorMain.set(ControlMode.PercentOutput, 0);
+        }
     }
 
 }
