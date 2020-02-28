@@ -5,7 +5,6 @@ import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 // utility imports
 import frc.lib.RT;
-import frc.lib.Log;
 
 public class shootAndMove {
 
@@ -47,15 +46,11 @@ public class shootAndMove {
 
 			hasNotStarted = false;
 
-			Log.println("started");
-
 		} else if (hasNotReved && RT.m_time - 3 >= m_initTime) {
 
 			ShootSubsystem.setVelocity(15000);
 
 			hasNotReved = false;
-
-			Log.println("reved");
 
 		} else if (hasNotShot && RT.m_time - 5 >= m_initTime) {
 
@@ -63,13 +58,9 @@ public class shootAndMove {
 
 			hasNotShot = false;
 
-			Log.println("shot");
-
 		} else if (RT.m_time - 8 >= m_initTime) {
 
 			ShootSubsystem.setVelocity(0);
-
-			Log.println("stopped");
 
 	  	}
 

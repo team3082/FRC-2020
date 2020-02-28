@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.auto.shootAndMove; 
 
 
 public class Robot extends TimedRobot {
@@ -20,6 +21,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+
         chooser.setDefaultOption("Default Auto", DEFAULT_AUTO);
         chooser.addOption("My Auto", CUSTOM_AUTO);
         SmartDashboard.putData("Auto choices", chooser);
@@ -31,6 +33,7 @@ public class Robot extends TimedRobot {
         
         ShootSubsystem.init();
         CameraServer.getInstance().startAutomaticCapture();
+        
     }
 
     @Override
@@ -39,6 +42,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+
+        shootAndMove.init(); 
 
         autoSelected = chooser.getSelected();
 
