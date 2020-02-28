@@ -51,7 +51,7 @@ public class shootAndMove {
 
 		} else if (hasNotReved && RT.m_time - 3 >= m_initTime) {
 
-			// ShootSubsystem.setShooterVelocity();
+			ShootSubsystem.setVelocity(15000);
 
 			hasNotReved = false;
 
@@ -59,7 +59,7 @@ public class shootAndMove {
 
 		} else if (hasNotShot && RT.m_time - 5 >= m_initTime) {
 
-			// ShootSubsystem.setShooterVelocity();
+			ShootSubsystem.setVelocity(15000);
 
 			hasNotShot = false;
 
@@ -67,7 +67,7 @@ public class shootAndMove {
 
 		} else if (RT.m_time - 8 >= m_initTime) {
 
-			// ShootSubsystem.setShooterVelocity();
+			ShootSubsystem.setVelocity(0);
 
 			Log.println("stopped");
 
