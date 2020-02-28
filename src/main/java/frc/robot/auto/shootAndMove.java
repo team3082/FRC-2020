@@ -5,6 +5,7 @@ import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 // utility imports
 import frc.lib.RT;
 
@@ -63,8 +64,6 @@ public class shootAndMove {
 		} else if (RT.m_time - 8 >= m_initTime) {
 
             ShootSubsystem.setVelocity(0);
-            
-            PneumaticsSubsystem.beltSolenoid.set(Value.kForward);
 
 	  	}
 
