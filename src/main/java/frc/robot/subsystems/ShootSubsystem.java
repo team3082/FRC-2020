@@ -32,7 +32,7 @@ public class ShootSubsystem{
     private static final double kI      = 0.00005;
     private static final double kD      = 00;
     //WE NEED TO TEST THE SECOND VALUE:
-    private static final double kF      = 1023/21525.0;
+    private static final double kF      = 1023/7200.0;
     public static final int kSlotIdx    = 0;
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs  = 30;
