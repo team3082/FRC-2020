@@ -3,9 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.Controller;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,13 +20,6 @@ public class ShootSubsystem{
     public static Talon beltMotor2 = new Talon(Constants.BELT_MOTOR_RIGHT);
 
     public static Timer timer = new Timer();
-
-    private static Boolean lastShootbutton = false;
-    private static double lastPressTime = 0;
-    
-    private static final double DELAY = 0.7;
-
-    private static final double TARGET_VELOCITY = Constants.TARGET_FLYWHEEL_RPM * 4096 / 600;
 
     static {
         timer.start();

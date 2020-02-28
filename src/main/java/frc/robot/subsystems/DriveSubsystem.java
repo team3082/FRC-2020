@@ -1,9 +1,11 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.lib.RT;
 import frc.robot.Constants;
 import frc.robot.Controller;
 
@@ -58,7 +60,23 @@ public class DriveSubsystem {
 
         return speedmod;
 
-
-        
     }
+
+    public static void move (double seconds) {
+        double m_initialTime = RT.m_time; 
+
+        motorLeft0.set(ControlMode.PercentOutput, 1); 
+        motorLeft1.set(ControlMode.PercentOutput, 1); 
+        motorRight2.set(ControlMode.PercentOutput, 1); 
+        motorRight3.set(ControlMode.PercentOutput, 1); 
+
+        if (RT.m_time - seconds >= m_initialTime) {
+            motorLeft0.set(ControlMode.PercentOutput, 0); 
+            motorLeft1.set(ControlMode.PercentOutput, 0); 
+            motorRight2.set(ControlMode.PercentOutput, 0); 
+            motorRight3.set(ControlMode.PercentOutput, 0); 
+        }
+
+    }
+
 }
