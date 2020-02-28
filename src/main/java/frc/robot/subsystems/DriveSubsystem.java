@@ -23,25 +23,21 @@ public class DriveSubsystem {
     public static final WPI_TalonSRX motorRight2 = new WPI_TalonSRX(Constants.MOTOR_RIGHTFRONT);
     public static final WPI_TalonSRX motorRight3 = new WPI_TalonSRX(Constants.MOTOR_RIGHTBACK);
 
-    // Motor Control Groups
-    private static final SpeedControllerGroup motorsLeft = new SpeedControllerGroup(motorLeft0, motorLeft1);
-    private static final SpeedControllerGroup motorsRight = new SpeedControllerGroup(motorRight2, motorRight3);
+    //Controls the Power of Motors
+    public static double leftPower;
+    public static double rightPower;
 
-    // Drivetrain object
-    private static final DifferentialDrive drive = new DifferentialDrive(motorsLeft, motorsRight);
+    public static void init(){
+        motorLeft1.follow(motorLeft0);
+        motorRight3.follow(motorRight2);
+    }
 
     //Runs every time robotPeriodic is run
     public static void update() {
-        if (Controller.slowButton.get()) {
-            speedmod = 0.6;
-        } else {
-            speedmod = 1;
-        }
-        // final double x = driveToggle(Controller.slowButton.get());
-
-        drive.arcadeDrive(Controller.driveControl.getY() * speedmod, Controller.driveControl.getX() * speedmod);
-
-
+        
+        motorLeft0.set(ControlMode.PercentOutput, leftPower);
+        motorRight2.set(ControlMode.PercentOutput, rightPower);
+        
     }
 
     public static double driveToggle(final boolean buttonValue) {
