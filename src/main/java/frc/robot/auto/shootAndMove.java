@@ -3,6 +3,8 @@ package frc.robot.auto;
 // subsystem imports
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 // utility imports
 import frc.lib.RT;
 
@@ -42,7 +44,7 @@ public class shootAndMove {
 
 		if (hasNotStarted) {
 
-			DriveSubsystem.move(5); 
+			DriveSubsystem.move(2); 
 
 			hasNotStarted = false;
 
@@ -54,13 +56,15 @@ public class shootAndMove {
 
 		} else if (hasNotShot && RT.m_time - 5 >= m_initTime) {
 
-			ShootSubsystem.setVelocity(15000);
+			PneumaticsSubsystem.beltSolenoid.set(Value.kForward);
 
 			hasNotShot = false;
 
 		} else if (RT.m_time - 8 >= m_initTime) {
 
-			ShootSubsystem.setVelocity(0);
+            ShootSubsystem.setVelocity(0);
+            
+            PneumaticsSubsystem.beltSolenoid.set(Value.kForward);
 
 	  	}
 
