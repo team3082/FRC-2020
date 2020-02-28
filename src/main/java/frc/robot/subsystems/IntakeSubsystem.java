@@ -26,12 +26,9 @@ public class IntakeSubsystem {
 
 
         if(Controller.beltButton.get()) {
-            ShootSubsystem.beltMotor1.setSpeed(-0.4);
-            ShootSubsystem.beltMotor2.setSpeed(0.4);
-        }
-        else{
-            ShootSubsystem.beltMotor1.setSpeed(0);
-            ShootSubsystem.beltMotor2.setSpeed(0);
+            BeltSubsystem.beltOn();
+        } else {
+            BeltSubsystem.beltOff();
         }
         SmartDashboard.putNumber("Intake Current", Robot.pdp.getCurrent(12));
 

@@ -5,7 +5,6 @@ import frc.robot.Controller;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;  
@@ -16,9 +15,6 @@ public class ShootSubsystem{
     public static WPI_TalonSRX flyWheel1 = new WPI_TalonSRX(Constants.SHOOTER_LEFT);
     public static WPI_TalonSRX flyWheel2 = new WPI_TalonSRX(Constants.SHOOTER_RIGHT);
 
-    public static Talon beltMotor1 = new Talon(Constants.BELT_MOTOR_LEFT);
-    public static Talon beltMotor2 = new Talon(Constants.BELT_MOTOR_RIGHT);
-
     public static Timer timer = new Timer();
 
     private static Boolean lastShootbutton = false;
@@ -26,7 +22,7 @@ public class ShootSubsystem{
     
     private static final double DELAY = 0.7;
 
-    private static final double TARGET_VELOCITY = Constants.TARGET_FLYWHEEL_RPM * 4096 / 600;
+    public static final double TARGET_VELOCITY = Constants.TARGET_FLYWHEEL_RPM * 4096 / 600;
 
     private static final double kP      = 0.045;
     private static final double kI      = 0.00005;
@@ -59,8 +55,6 @@ public class ShootSubsystem{
         flyWheel1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
         flyWheel2.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
         flyWheel2.follow(flyWheel1);
-
-
 
     }
 
